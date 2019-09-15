@@ -11,11 +11,12 @@ public abstract class DaoGeneric<T> implements CRUDInterface<T>{
     private static String SQL_SELECT = "SELECT * FROM %s WHERE id=?;";
     private static String SQL_DELETE = "DELETE FROM %s WHERE id=?;";
     private static String SQL_DELETE_ALL = "DROP TABLE %s;";
-    private static String SQL_INSERT = "INSERT INTO %s (%s) VALUES (?, ?, ?, ?, ?);";
+    private static String SQL_INSERT = "INSERT INTO %s (%s) VALUES (%s);";
     private static String SQL_UPDATE = "UPDATE %s SET %s=? WHERE id=?;";
     private static String SQL_SELECT_ALL = "SELECT * FROM %s;";
     private String tableName;
     private String tableParans;
+    private String tableValues;
     private String createAllStatement;
 
     public void createTable() {
@@ -77,7 +78,7 @@ public abstract class DaoGeneric<T> implements CRUDInterface<T>{
 
     public void create(T t) {
         try {
-            String createStatement = String.format(SQL_INSERT, this.tableName, this.tableParans);
+            String createStatement = String.format(SQL_INSERT, this.tableName, this.tableParans, this.tableValues);
             PreparedStatement preparedStatement = this.con.prepareStatement(createStatement);
             preparedStatement = prepareStatement(preparedStatement, t);
 
@@ -132,9 +133,10 @@ public abstract class DaoGeneric<T> implements CRUDInterface<T>{
         }
     };
 
-    public DaoGeneric(String tableName, String params, String createAllStatement) {
+    public DaoGeneric(String tableName, String params, String values, String createAllStatement) {
         this.tableName = tableName;
         this.tableParans = params;
+        this.tableValues = values;
         this.createAllStatement = createAllStatement;
     }
 }

@@ -27,7 +27,7 @@ public class ClientDao extends DaoGeneric<Client> {
     }
 
     public ClientDao(Connection con) {
-        super("client", "name, surname, pasportId, discount, phone",
+        super("client", "name, surname, pasportId, discount, phone", "?, ?, ?, ?, ?",
                 "CREATE TABLE client (\n" +
                 "    id serial PRIMARY KEY,\n" +
                 "    name varchar (50) NOT NULL,\n" +

@@ -85,7 +85,9 @@ public class DaoFactory {
     {
 
         try{ this.close(); }
-        finally{  }
+        finally{
+        }
+        System.out.println("Disconnected to the database!");
 
     }
 

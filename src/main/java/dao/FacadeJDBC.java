@@ -6,6 +6,8 @@ import org.json.simple.parser.JSONParser;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.IntStream;
 
 public class FacadeJDBC {
     protected ClientDao clientDao = null;
@@ -34,7 +36,51 @@ public class FacadeJDBC {
     }
 
     public void insertExamples(DbObjects o, Integer counter) {
-
+        IntStream.range(0, counter).forEachOrdered(n -> {
+            switch (o){
+                case CLIENT: {
+                    this.clientDao.create(new Client(0,
+                            this.namesSamples.get(new Random().nextInt(this.namesSamples.size())),
+                            this.surnamesSamples.get(new Random().nextInt(this.surnamesSamples.size())),
+                            new Random().nextLong(),
+                            new Random().nextInt(),
+                            this.namesSamples.get(new Random().nextInt(this.namesSamples.size()))
+                            ));
+                    break;
+                }
+                case FLIGHT: {
+                    this.flightDao.create(new Flight(0,
+                            new Random().nextInt(),
+                            new Random().nextInt(),
+                            new Random().nextInt(),
+                            this.citiesSamples.get(new Random().nextInt(this.citiesSamples.size())),
+                            this.citiesSamples.get(new Random().nextInt(this.citiesSamples.size())),
+                            RandomDates.createRandomDate(2019, 1020),
+                            RandomDates.createRandomDate(2019, 1020)
+                            ));
+                    break;
+                }
+                case TICKET: {
+                    this.ticketDao.create(new Ticket(0,
+                            new Random().nextInt(),
+                            new Random().nextInt(),
+                            new Random().nextLong(),
+                            new Random().nextInt(),
+                            this.citiesSamples.get(new Random().nextInt(this.citiesSamples.size()))
+                            ));
+                    break;
+                }
+                case COMPANY: {
+                    this.companyDao.create(new Company(0,
+                            this.namesSamples.get(new Random().nextInt(this.namesSamples.size())),
+                            this.namesSamples.get(new Random().nextInt(this.namesSamples.size())),
+                            this.surnamesSamples.get(new Random().nextInt(this.surnamesSamples.size())),
+                            this.surnamesSamples.get(new Random().nextInt(this.surnamesSamples.size()))
+                            ));
+                    break;
+                }
+            }
+        });
     }
 
     public void modifyByIndex(DbObjects o, Integer index) {
@@ -82,11 +128,6 @@ public class FacadeJDBC {
                     facadeJDBC.namesSamples = names;
                     facadeJDBC.surnamesSamples = surnames;
                     facadeJDBC.citiesSamples = cities;
-
-                    for(Object country : facadeJDBC.namesSamples)
-                    {
-                        System.out.println("\t"+country.toString());
-                    }
                 }
                 catch(FileNotFoundException fe)
                 {

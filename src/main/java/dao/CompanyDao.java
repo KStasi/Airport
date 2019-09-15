@@ -24,7 +24,7 @@ public class CompanyDao extends DaoGeneric<Company> {
     }
 
     public CompanyDao(Connection con) {
-        super("company", "name, directorName, directorSurname, phone", "CREATE TABLE company (\n" +
+        super("company", "name, directorName, directorSurname, phone", "?, ?, ?, ?", "CREATE TABLE company (\n" +
                 "    id serial PRIMARY KEY,\n" +
                 "    name varchar (50) NOT NULL,\n" +
                 "    directorName varchar (50) NOT NULL,\n" +

@@ -20,6 +20,7 @@ public class MainJDBC {
 
             FacadeJDBC facadeJDBC = FacadeJDBC.getInstance();
             facadeJDBC.recreateAll();
+            facadeJDBC.insertExamples(DbObjects.COMPANY, 4);
         } catch (Exception e) {
             e.printStackTrace();
         }

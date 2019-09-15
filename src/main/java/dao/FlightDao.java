@@ -26,7 +26,7 @@ public class FlightDao extends DaoGeneric<Flight> {
         return preparedStatement;
     }
     public FlightDao(Connection con) {
-        super("flight", "boardId, companyId, placesCounter, cityFrom, cityTo, departure, arrival", "CREATE TABLE flight (\n" +
+        super("flight", "boardId, companyId, placesCounter, cityFrom, cityTo, departure, arrival", "?, ?, ?, ?, ?, ?, ?", "CREATE TABLE flight (\n" +
                 "    id serial PRIMARY KEY,\n" +
                 "    boardId integer NOT NULL,\n" +
                 "    companyId integer NOT NULL,\n" +

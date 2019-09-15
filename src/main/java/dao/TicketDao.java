@@ -27,7 +27,7 @@ public class TicketDao extends DaoGeneric<Ticket> {
     }
 
     public TicketDao(Connection con) {
-        super("ticket", "flightId, clientId, price, place, type", "CREATE TABLE ticket (\n" +
+        super("ticket", "flightId, clientId, price, place, type", "?, ?, ?, ?, ?", "CREATE TABLE ticket (\n" +
                 "    id serial PRIMARY KEY,\n" +
                 "    flightId integer NOT NULL,\n" +
                 "    clientId integer NOT NULL,\n" +
