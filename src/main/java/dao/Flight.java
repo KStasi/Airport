@@ -22,4 +22,10 @@ public class Flight {
         this.departure = departure;
         this.arrival = arrival;
     }
+
+    @Override
+    public String toString() {
+        return String.format("{\n\tid: %d,\n\tcityFrom: %s,\n\tcityTo: %s,\n\tdeparture:  %tc,\n\tarrival:  %tc,\n\tboardId: %d,\n\tcompanyId: %d,\n\tplacesCounter: %d\n}\n",
+                this.id, this.cityFrom.trim(), this.cityTo.trim(), this.departure, this.arrival, this.boardId, this.companyId, this.placesCounter);
+    }
 }

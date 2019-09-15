@@ -5,6 +5,7 @@ import org.json.simple.parser.JSONParser;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
@@ -66,7 +67,7 @@ public class FacadeJDBC {
                             new Random().nextInt(),
                             new Random().nextLong(),
                             new Random().nextInt(),
-                            this.citiesSamples.get(new Random().nextInt(this.citiesSamples.size()))
+                            this.citiesSamples.get(new Random().nextInt(this.citiesSamples.size())).substring(0, 1)
                             ));
                     break;
                 }
@@ -87,8 +88,27 @@ public class FacadeJDBC {
 
     }
 
-    public void listAll(DbObjects o) {
+    public void showDb() {
+        ArrayList clients = (ArrayList) this.clientDao.getAll();
+        ArrayList flights = (ArrayList) this.flightDao.getAll();
+        ArrayList companies = (ArrayList) this.companyDao.getAll();
+        ArrayList tickets = (ArrayList) this.ticketDao.getAll();
 
+        for (Object client : clients) {
+            System.out.print((Client)client);
+        }
+
+        for (Object flight : flights) {
+            System.out.print((Flight)flight);
+        }
+
+        for (Object company : companies) {
+            System.out.print((Company)company);
+        }
+
+        for (Object ticket : tickets) {
+            System.out.print((Ticket)ticket);
+        }
     }
 
     public void deleteAll() {

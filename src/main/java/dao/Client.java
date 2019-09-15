@@ -16,4 +16,10 @@ public class Client {
         this.discount = discount;
         this.phone = phone;
     }
+
+    @Override
+    public String toString() {
+        return String.format("{\n\tid: %d,\n\tname: %s,\n\tsurname: %s,\n\tpassportId: %d,\n\tdiscount: %d,\n\tphone: %s\n}\n",
+                this.id, this.name, this.surname, this.pasportId, this.discount, this.phone);
+    }
 }

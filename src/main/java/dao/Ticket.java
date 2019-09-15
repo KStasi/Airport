@@ -16,4 +16,10 @@ public class Ticket {
         this.place = place;
         this.type = type;
     }
+    @Override
+    public String toString() {
+        return String.format("{\n\tid: %d,\n\tflightId: %d,\n\tclientId: %d,\n\tprice:  %d,\n\tplace:  %d,\n\ttype: %s\n}\n",
+                this.id, this.flightId, this.clientId, this.price, this.place, this.type);
+    }
+
 }

@@ -14,4 +14,9 @@ public class Company {
         this.directorSurname = directorSurname;
         this.phone = phone;
     }
+    @Override
+    public String toString() {
+        return String.format("{\n\tid: %d,\n\tname: %s,\n\tdirectorName: %s,\n\tdirectorSurname:  %s,\n\tphone:  %s\n}\n",
+                this.id, this.name, this.directorName, this.directorSurname, this.phone);
+    }
 }
