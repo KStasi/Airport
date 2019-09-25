@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public abstract class DaoGeneric<T> implements CRUDInterface<T>{
+public abstract class DaoSqlGeneric<T> implements CRUDInterface<T>{
     protected Connection con;
     private static String SQL_SELECT = "SELECT * FROM %s WHERE id=?;";
     private static String SQL_DELETE = "DELETE FROM %s WHERE id=?;";
@@ -133,7 +133,7 @@ public abstract class DaoGeneric<T> implements CRUDInterface<T>{
         }
     };
 
-    public DaoGeneric(String tableName, String params, String values, String createAllStatement) {
+    public DaoSqlGeneric(String tableName, String params, String values, String createAllStatement) {
         this.tableName = tableName;
         this.tableParans = params;
         this.tableValues = values;

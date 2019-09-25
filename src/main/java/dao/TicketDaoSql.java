@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TicketDao extends DaoGeneric<Ticket> {
+public class TicketDaoSql extends DaoSqlGeneric<Ticket> {
 
     public Ticket newInstance(ResultSet resultSet) throws SQLException {
         Integer id = resultSet.getInt("id");
@@ -26,7 +26,7 @@ public class TicketDao extends DaoGeneric<Ticket> {
         return preparedStatement;
     }
 
-    public TicketDao(Connection con) {
+    public TicketDaoSql(Connection con) {
         super("ticket", "flightId, clientId, price, place, type", "?, ?, ?, ?, ?", "CREATE TABLE ticket (\n" +
                 "    id serial PRIMARY KEY,\n" +
                 "    flightId integer NOT NULL,\n" +

@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CompanyDao extends DaoGeneric<Company> {
+public class CompanyDaoSql extends DaoSqlGeneric<Company> {
     public Company newInstance(ResultSet resultSet) throws SQLException {
         Integer id = resultSet.getInt("id");
         String name = resultSet.getString("name");
@@ -23,7 +23,7 @@ public class CompanyDao extends DaoGeneric<Company> {
         return preparedStatement;
     }
 
-    public CompanyDao(Connection con) {
+    public CompanyDaoSql(Connection con) {
         super("company", "name, directorName, directorSurname, phone", "?, ?, ?, ?", "CREATE TABLE company (\n" +
                 "    id serial PRIMARY KEY,\n" +
                 "    name varchar (50) NOT NULL,\n" +

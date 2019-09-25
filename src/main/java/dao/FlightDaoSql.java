@@ -2,7 +2,7 @@ package dao;
 
 import java.sql.*;
 
-public class FlightDao extends DaoGeneric<Flight> {
+public class FlightDaoSql extends DaoSqlGeneric<Flight> {
     public Flight newInstance(ResultSet resultSet) throws SQLException {
         Integer id = resultSet.getInt("id");
         Integer boardId = resultSet.getInt("boardId");
@@ -25,7 +25,7 @@ public class FlightDao extends DaoGeneric<Flight> {
         preparedStatement.setDate(7, t.arrival);
         return preparedStatement;
     }
-    public FlightDao(Connection con) {
+    public FlightDaoSql(Connection con) {
         super("flight", "boardId, companyId, placesCounter, cityFrom, cityTo, departure, arrival", "?, ?, ?, ?, ?, ?, ?", "CREATE TABLE flight (\n" +
                 "    id serial PRIMARY KEY,\n" +
                 "    boardId integer NOT NULL,\n" +

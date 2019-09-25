@@ -1,7 +1,11 @@
 package dao;
 
-import java.sql.DriverManager;
+import com.mongodb.DB;
+import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DaoFactory {
@@ -13,65 +17,91 @@ public class DaoFactory {
         return DaoFactorySingleton.INSTANCE;
     }
 
-    public DaoGeneric getDAO(DbObjects db) {
+    public  CRUDInterface<? extends Object> getDAO(DbObjects dbo, DbTypes t) {
 
         try
         {
-            if(this.con == null || this.con.isClosed()) //Let's ensure our connection is open
+            if(this.sqlConnection == null || this.sqlConnection.isClosed() || this.mongoClient == null) //Let's ensure our connection is open
                 this.open();
         }
         catch(SQLException e){ e.printStackTrace(); }
 
-        switch(db)
-        {
-            case CLIENT:
-                return new ClientDao(this.con);
-            case COMPANY:
-                return new CompanyDao(this.con);
-            case TICKET:
-                return new TicketDao(this.con);
-            case FLIGHT:
-                return new FlightDao(this.con);
-            default:
-                System.out.println("Trying to link to an non-existed table.");
+        if (t == DbTypes.POSTGRES) {
+            switch(dbo)
+            {
+                case CLIENT:
+                    return new ClientDaoSql(this.sqlConnection);
+                case COMPANY:
+                    return new CompanyDaoSql(this.sqlConnection);
+                case TICKET:
+                    return new TicketDaoSql(this.sqlConnection);
+                case FLIGHT:
+                    return new FlightDaoSql(this.sqlConnection);
+                default:
+                    System.out.println("Trying to link to an non-existed table.");
+            }
+        } else {
+            switch(dbo)
+            {
+                case CLIENT:
+                    return new ClientDaoNoSql(this.mongoDb);
+                case COMPANY:
+                    return new CompanyDaoNoSql(this.mongoDb);
+                case TICKET:
+                    return new TicketDaoNoSql(this.mongoDb);
+                case FLIGHT:
+                    return new FlightDaoNoSql(this.mongoDb);
+                default:
+                    System.out.println("Trying to link to an non-existed table.");
+            }
         }
         return null;
     };
 
-    public void open() throws SQLException {
+    public void open() {
         try
         {
-            if(this.con==null || this.con.isClosed())
-                this.con = DriverManager.getConnection(
+            if(this.sqlConnection ==null || this.sqlConnection.isClosed())
+                this.sqlConnection = DriverManager.getConnection(
                         DB_URL, USER, PASS);
+            if (this.mongoClient == null)
+                this.mongoClient = new MongoClient();
         }
         catch(SQLException e) {
-            throw e;
+            e.printStackTrace();
         }
     }
 
-    public void close() throws SQLException {
+    public void close() {
         try
         {
-            if(this.con!=null && this.con.isClosed())
-                this.con.close();
+            if(this.sqlConnection !=null && this.sqlConnection.isClosed())
+                this.sqlConnection.close();
+            if (this.mongoClient != null)
+                this.mongoClient.close();
         }
-        catch(SQLException e) { throw e; }
+        catch(SQLException e) { e.printStackTrace(); }
     }
 
-    private Connection con;
+    private Connection sqlConnection;
+    private Mongo mongoClient;
+    private DB mongoDb;
 
-    private DaoFactory() throws Exception {
+    private DaoFactory() {
         try {
             Connection con = DriverManager.getConnection(
                     DB_URL, USER, PASS);
+            Mongo mongoClient = new Mongo();
+            DB mongoDb = new DB(mongoClient, "fly");
 
             if (con != null) {
                 System.out.println("Connected to the database!");
             } else {
                 System.out.println("Failed to make connection!");
             }
-            this.con = con;
+            this.sqlConnection = con;
+            this.mongoClient = mongoClient;
+            this.mongoDb = mongoDb;
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
         } catch (Exception e) {

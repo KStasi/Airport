@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ClientDao extends DaoGeneric<Client> {
+public class ClientDaoSql extends DaoSqlGeneric<Client> {
 
     public Client newInstance(ResultSet resultSet) throws SQLException {
         Integer id = resultSet.getInt("id");
@@ -26,7 +26,7 @@ public class ClientDao extends DaoGeneric<Client> {
         return preparedStatement;
     }
 
-    public ClientDao(Connection con) {
+    public ClientDaoSql(Connection con) {
         super("client", "name, surname, pasportId, discount, phone", "?, ?, ?, ?, ?",
                 "CREATE TABLE client (\n" +
                 "    id serial PRIMARY KEY,\n" +
